@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LeetCode---统计作战单位数(未完待续) | 猿始大猩猩</title><meta name="author" content="zredMonkey"><meta name="copyright" content="zredMonkey"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="n 名士兵站成一排。每个士兵都有一个 独一无二 的评分 rating 。每 3 个士兵可以组成一个作战单位，分组规则如下：  从队伍中选出下标分别为 i、j、k 的 3 名士兵，他们的评分分别为 rating[i]、rating[j]、rating[k] 作战单位需满足： rating[i] &lt; rating[j] &lt; rating[k] 或者 rating[i] &gt; rati">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode---统计作战单位数(未完待续)">
+<meta property="og:url" content="http://example.com/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/index.html">
+<meta property="og:site_name" content="猿始大猩猩">
+<meta property="og:description" content="n 名士兵站成一排。每个士兵都有一个 独一无二 的评分 rating 。每 3 个士兵可以组成一个作战单位，分组规则如下：  从队伍中选出下标分别为 i、j、k 的 3 名士兵，他们的评分分别为 rating[i]、rating[j]、rating[k] 作战单位需满足： rating[i] &lt; rating[j] &lt; rating[k] 或者 rating[i] &gt; rati">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-04-11T14:38:20.733Z">
+<meta property="article:modified_time" content="2021-04-11T14:39:21.743Z">
+<meta property="article:author" content="zredMonkey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/monkeyHand.jpg"><link rel="canonical" href="http://example.com/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: '',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-11 22:39:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/monkeyHand.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/leetcode/"><i class="fa-fw fas fa-folder-open"></i><span> LeetCode</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/language/"><i class="fa-fw fas fa-archive"></i><span> Language</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">猿始大猩猩</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/leetcode/"><i class="fa-fw fas fa-folder-open"></i><span> LeetCode</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/language/"><i class="fa-fw fas fa-archive"></i><span> Language</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LeetCode---统计作战单位数(未完待续)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-11T14:38:20.733Z" title="发表于 2021-04-11 22:38:20">2021-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-11T14:39:21.743Z" title="更新于 2021-04-11 22:39:21">2021-04-11</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p> n 名士兵站成一排。每个士兵都有一个 独一无二 的评分 rating 。<br>每 3 个士兵可以组成一个作战单位，分组规则如下：</p>
+<ul>
+<li>从队伍中选出下标分别为 i、j、k 的 3 名士兵，他们的评分分别为 rating[i]、rating[j]、rating[k]</li>
+<li>作战单位需满足： rating[i] &lt; rating[j] &lt; rating[k] 或者 rating[i] &gt; rating[j] &gt; rating[k] ，其中  0 &lt;= i &lt; j &lt; k &lt; n<br>请你返回按上述条件可以组建的作战单位数量。每个士兵都可以是多个作战单位的一部分。</li>
+</ul>
+<p>示例 1：<br>输入：rating = [2,5,3,4,1]<br>输出：3<br>解释：我们可以组建三个作战单位 (2,3,4)、(5,4,1)、(5,3,1) 。</p>
+<p>示例 2：<br>输入：rating = [2,1,3]<br>输出：0<br>解释：根据题目条件，我们无法组建作战单位。</p>
+<p>提示：</p>
+<ul>
+<li>n == rating.length</li>
+<li>3 &lt;= n &lt;= 1000</li>
+<li>1 &lt;= rating[i] &lt;= 10^5</li>
+<li>rating 中的元素都是唯一的</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/count-number-of-teams">https://leetcode-cn.com/problems/count-number-of-teams</a></p>
+<h5 id="方法一：枚举三元组"><a href="#方法一：枚举三元组" class="headerlink" title="方法一：枚举三元组"></a>方法一：枚举三元组</h5><p>我们可以直接根据题目要求，枚举三元组 (i, j, k)(i,j,k) 表示三名士兵，其中 i &lt; j &lt; k。在枚举过程中，我们只需要判断这三名士兵的评分是否严格单调递增rating[i]&lt;rating[j]&lt;rating[k]或严格单调递减rating[i]&gt;rating[j]&gt;rating[k]即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numTeams</span><span class="params">(<span class="keyword">int</span>[] rating)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = rating.length;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = j + <span class="number">1</span>; k &lt; n; ++k) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((rating[i] &lt; rating[j] &amp;&amp; rating[j] &lt; rating[k]) || (rating[i] &gt; rating[j] &amp;&amp; rating[j] &gt; rating[k])) &#123;</span><br><span class="line">                        ++ans;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>复杂度分析</p>
+<ul>
+<li>时间复杂度：O(N^3)，其中 N 是数组 \textit{ratings}[]ratings[] 的长度。我们需要使用三重循环枚举三元组。</li>
+<li>空间复杂度：O(1)。</li>
+</ul>
+<p><strong>注</strong>:此方法耗时，不推荐。</p>
+<h5 id="方法二：枚举中间点"><a href="#方法二：枚举中间点" class="headerlink" title="方法二：枚举中间点"></a>方法二：枚举中间点</h5><p>我们也可以枚举三元组 (i, j, k)中的 j，它是三元组的中间点。在这之后，我们统计：</p>
+<ul>
+<li>出现在位置 j左侧且比 j 评分低的士兵数量i{less}; </li>
+<li>出现在位置 j左侧且比 j评分高的士兵数量 i{more}；</li>
+<li>出现在位置 j右侧且比 j评分低的士兵数量 k{less}；</li>
+<li>出现在位置 j右侧且比 j评分高的士兵数量 k{more}。</li>
+</ul>
+<p>这样以来，任何一个出现在i{less}中的士兵 i，以及出现在k{more}中的士兵 k，都可以和 j 组成一个严格单调递增的三元组；同理，任何一个出现在 i{more}中的士兵 i，以及出现在k{less}中的士兵 k，都可以和 j 组成一个严格单调递减的三元组。因此，以 j 为中间点的三元组的数量为：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i{less} ∗ k{more} + i{more} ∗ k{less}<br>我们将所有的值进行累加即可得到答案。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numTeams</span><span class="params">(<span class="keyword">int</span>[] rating)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = rating.length;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 枚举三元组中的 j</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n - <span class="number">1</span>; ++j) &#123;</span><br><span class="line">            <span class="keyword">int</span> iless = <span class="number">0</span>, imore = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> kless = <span class="number">0</span>, kmore = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; j; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span> (rating[i] &lt; rating[j]) &#123;</span><br><span class="line">                    ++iless;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 注意这里不能直接写成 else</span></span><br><span class="line">                <span class="comment">// 因为可能有评分相同的情况</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (rating[i] &gt; rating[j]) &#123;</span><br><span class="line">                    ++imore;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = j + <span class="number">1</span>; k &lt; n; ++k) &#123;</span><br><span class="line">                <span class="keyword">if</span> (rating[k] &lt; rating[j]) &#123;</span><br><span class="line">                    ++kless;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rating[k] &gt; rating[j]) &#123;</span><br><span class="line">                    ++kmore;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ans += iless * kmore + imore * kless;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>复杂度分析</p>
+<ul>
+<li><p>时间复杂度：O(N^2)，其中 N 是数组ratings[] 的长度。我们需要使用一重循环枚举三元组中的 j，另一重循环计算 i{less}，i{more}，k{less}和 k{more}。</p>
+</li>
+<li><p>空间复杂度：O(1)。</p>
+<p>72 / 72 个通过测试用例<br>执行用时: 30 ms<br>内存消耗: 38 MB</p>
+</li>
+</ul>
+<h5 id="方法三：离散化树状数组"><a href="#方法三：离散化树状数组" class="headerlink" title="方法三：离散化树状数组"></a>方法三：离散化树状数组</h5><p>前置知识</p>
+<ul>
+<li>离散化思想，在不改变数据相对大小的条件下，对数据进行相应的缩小。</li>
+<li>树状数组（二元索引树），一种动态维护前缀和的数据结构。</li>
+</ul>
+<p>思路:<br>考虑优化方法二中求 i{less}、k{more}、i{more}、k{less}的过程。在方法二中我们使用了枚举来求解这四个量，单次枚举的时间代价是O(N)。假设我们有一个桶数组，索引 i 的值为 1 就说明存在元素 i，为 0 就说明不存在元素 i，那么该桶数组的前缀和preffixSum[i−1] 就表示当前比 i小的数的个数，我们只需要用树状数组动态维护这个前缀和，就可以把单次的时间代价从O(N) 优化到 O(logN)。<br>我们对 rating 数组做两次遍历，一次从前向后，一次从后向前。从前向后的时候，对于每一个 rating[i] （记为 x），求到上述桶数组下标 x−1 的前缀和，即 i{less}，记 rating 数组中出现的最大值为 r{max}，用 r{max}的前缀和减去 x 位置的前缀和即可得到 i{more} .从后向前的那次遍历同理。</p>
+<p>思考：仅仅这样做真的可以单次计算变成logN 吗？ 我们知道树状数组修改和查询的时间代价和树状数组的长度相关，也就是这里的 r{max}（它最大可以到 10^5），所以这里单次查询的代价是O(logrmax)。实际上 rating 的长度最大只有 200，也就是这个树状数组中的「有效位置」最多只有 200 个，所以我们不用开辟 10^5的长度，只需要开辟 200 的长度，通过离散化的方法缩小值域，这样就可以把单次的时间代价变成 O(logN)。<br>由于这里没有重复的数字，所以只需要对 rating 数组中的数进行排序，然后二分获取离散化之后的值即可，单次二分的时间代价也是O(logN)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> maxN;</span><br><span class="line">    <span class="keyword">int</span>[] c;</span><br><span class="line">    List&lt;Integer&gt; disc;</span><br><span class="line">    <span class="keyword">int</span>[] iLess;</span><br><span class="line">    <span class="keyword">int</span>[] iMore;</span><br><span class="line">    <span class="keyword">int</span>[] kLess;</span><br><span class="line">    <span class="keyword">int</span>[] kMore;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numTeams</span><span class="params">(<span class="keyword">int</span>[] rating)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = rating.length;</span><br><span class="line">        maxN = n + <span class="number">2</span>;</span><br><span class="line">        c = <span class="keyword">new</span> <span class="keyword">int</span>[maxN];</span><br><span class="line">        disc = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            disc.add(rating[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        disc.add(-<span class="number">1</span>);</span><br><span class="line">        Collections.sort(disc);</span><br><span class="line">        iLess = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        iMore = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        kLess = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        kMore = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> id = getId(rating[i]);</span><br><span class="line">            iLess[i] = get(id);</span><br><span class="line">            iMore[i] = get(n + <span class="number">1</span>) - get(id); </span><br><span class="line">            add(id, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        c = <span class="keyword">new</span> <span class="keyword">int</span>[maxN];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="keyword">int</span> id = getId(rating[i]);</span><br><span class="line">            kLess[i] = get(id);</span><br><span class="line">            kMore[i] = get(n + <span class="number">1</span>) - get(id); </span><br><span class="line">            add(id, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            ans += iLess[i] * kMore[i] + iMore[i] * kLess[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">(<span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> low = <span class="number">0</span>, high = disc.size() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (high - low) / <span class="number">2</span> + low;</span><br><span class="line">            <span class="keyword">if</span> (disc.get(mid) &lt; target) &#123;</span><br><span class="line">                low = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                high = mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> low;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (p &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            r += c[p];</span><br><span class="line">            p -= lowbit(p);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (p &lt; maxN) &#123;</span><br><span class="line">            c[p] += v;</span><br><span class="line">            p += lowbit(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x &amp; (-x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>复杂度分析</p>
+<ul>
+<li>时间复杂度：O(NlogN)。离散化过程中对数组排序的时间代价是O(NlogN)。两次遍历，每次 N 个元素，对于每个元素做一次O(logN) 的离散值查询和 O(3×logN) 的树状数组操作，故渐进时间复杂度为O(NlogN+2×N×(logN+3logN))=O(NlogN)。</li>
+<li>空间复杂度：O(N)。这里用了长度为 N 的数组（6 个）最为辅助空间，渐进空间复杂度为 O(N)。</li>
+</ul>
+<p>72 / 72 个通过测试用例<br>状态：通过<br>执行用时: 16 ms<br>内存消耗: 38.1 MB</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">zredMonkey</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/">http://example.com/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">猿始大猩猩</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/07/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java8的流库（1）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/monkeyHand.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">zredMonkey</div><div class="author-info__description">及时清醒，及时止损</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zredMonkey"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">暂无</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%9E%9A%E4%B8%BE%E4%B8%89%E5%85%83%E7%BB%84"><span class="toc-number">1.</span> <span class="toc-text">方法一：枚举三元组</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E6%9E%9A%E4%B8%BE%E4%B8%AD%E9%97%B4%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">方法二：枚举中间点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%9A%E7%A6%BB%E6%95%A3%E5%8C%96%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84"><span class="toc-number">3.</span> <span class="toc-text">方法三：离散化树状数组</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/" title="LeetCode---统计作战单位数(未完待续)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode---统计作战单位数(未完待续)"/></a><div class="content"><a class="title" href="/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/" title="LeetCode---统计作战单位数(未完待续)">LeetCode---统计作战单位数(未完待续)</a><time datetime="2021-04-11T14:38:20.733Z" title="发表于 2021-04-11 22:38:20">2021-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/07/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/" title="Java8的流库（1）"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java8的流库（1）"/></a><div class="content"><a class="title" href="/2021/04/07/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/" title="Java8的流库（1）">Java8的流库（1）</a><time datetime="2021-04-07T13:01:23.704Z" title="发表于 2021-04-07 21:01:23">2021-04-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/16/Logback%20%E6%97%A5%E5%BF%97(%E5%BE%85%E5%AE%8C%E5%96%84)/" title="Logback 日志(待完善)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Logback 日志(待完善)"/></a><div class="content"><a class="title" href="/2021/03/16/Logback%20%E6%97%A5%E5%BF%97(%E5%BE%85%E5%AE%8C%E5%96%84)/" title="Logback 日志(待完善)">Logback 日志(待完善)</a><time datetime="2021-03-16T12:08:01.554Z" title="发表于 2021-03-16 20:08:01">2021-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%BA%8C%5D/" title="Spring Cloud GateWay [二]"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring Cloud GateWay [二]"/></a><div class="content"><a class="title" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%BA%8C%5D/" title="Spring Cloud GateWay [二]">Spring Cloud GateWay [二]</a><time datetime="2021-03-14T12:33:11.759Z" title="发表于 2021-03-14 20:33:11">2021-03-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%B8%80%5D/" title="Spring Cloud GateWay [一]"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring Cloud GateWay [一]"/></a><div class="content"><a class="title" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%B8%80%5D/" title="Spring Cloud GateWay [一]">Spring Cloud GateWay [一]</a><time datetime="2021-03-14T09:49:43.361Z" title="发表于 2021-03-14 17:49:43">2021-03-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By zredMonkey</div><div class="footer_custom_text">人生如果不学习，那还有什么意义，嗝...</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script></div></body></html>
