@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java8的流库（1） | 猿始大猩猩</title><meta name="author" content="zredMonkey"><meta name="copyright" content="zredMonkey"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述流库，是Java 8 中引入的，用来以“做什么而非怎么做”的方式处理集合。jdk底层新增了(流)Stream API，使我们能够写出更简洁、干净的代码来对集合、数组等进行操作。 流与集合的差异1.流并不存储元素。这些元素可能存储在底层的集合中，或者按需生成。2.流的操作不会修改其数据源。例如：filter方法不会从流中移除元素，而是会生成一个新的流，其中不包含被过滤掉的元素。3.流的操作是尽可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8的流库（1）">
+<meta property="og:url" content="http://example.com/2021/04/15/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/index.html">
+<meta property="og:site_name" content="猿始大猩猩">
+<meta property="og:description" content="概述流库，是Java 8 中引入的，用来以“做什么而非怎么做”的方式处理集合。jdk底层新增了(流)Stream API，使我们能够写出更简洁、干净的代码来对集合、数组等进行操作。 流与集合的差异1.流并不存储元素。这些元素可能存储在底层的集合中，或者按需生成。2.流的操作不会修改其数据源。例如：filter方法不会从流中移除元素，而是会生成一个新的流，其中不包含被过滤掉的元素。3.流的操作是尽可">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-04-15T12:25:12.032Z">
+<meta property="article:modified_time" content="2021-04-15T12:27:17.287Z">
+<meta property="article:author" content="zredMonkey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/monkeyHand.jpg"><link rel="canonical" href="http://example.com/2021/04/15/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: '',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-15 20:27:17'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/monkeyHand.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/leetcode/"><i class="fa-fw fas fa-folder-open"></i><span> LeetCode</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/language/"><i class="fa-fw fas fa-archive"></i><span> Language</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">猿始大猩猩</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/leetcode/"><i class="fa-fw fas fa-folder-open"></i><span> LeetCode</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/language/"><i class="fa-fw fas fa-archive"></i><span> Language</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java8的流库（1）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-15T12:25:12.032Z" title="发表于 2021-04-15 20:25:12">2021-04-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-15T12:27:17.287Z" title="更新于 2021-04-15 20:27:17">2021-04-15</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>流库，是Java 8 中引入的，用来以“做什么而非怎么做”的方式处理集合。jdk底层新增了(流)Stream API，使我们能够写出更简洁、干净的代码来对集合、数组等进行操作。</p>
+<h2 id="流与集合的差异"><a href="#流与集合的差异" class="headerlink" title="流与集合的差异"></a>流与集合的差异</h2><p>1.流并不存储元素。这些元素可能存储在底层的集合中，或者按需生成。<br>2.流的操作不会修改其数据源。例如：filter方法不会从流中移除元素，而是会生成一个新的流，其中不包含被过滤掉的元素。<br>3.流的操作是尽可能惰性执行的，这意味着直至其需要其结果时，才会执行。</p>
+<h2 id="流库API"><a href="#流库API" class="headerlink" title="流库API"></a>流库API</h2><p>java.util.stream.Stream(太多，建议展示源码)</p>
+<p>Stream<T> filter(Predicate&lt;? super T&gt; predicate);<br>产生一个流，其中包含当前流中满足p的所有元素。</p>
+<p>long count();<br>产生当前流中元素的数量。是一个终止操作。</p>
+<p>static<T> Stream<T> of(T t)<br>产生一个元素为给定值的流。</p>
+<p>static<T> Stream<T> empty()<br>产生一个不包含任何元素的流。</p>
+<p>static<T> Stream<T> generate(Supplier<T> s)<br>产生一个无限流，它的值是通过反复调用函数s而构建的。</p>
+<p>static<T> Stream<T> iterate(final T seed, final UnaryOperator<T> f)<br>产生一个无限流，它的元素包含seed、在seed上调用f产生的值、在前一个元素上调用f产生的值。<br>static <T> Stream<T> ofNullable(T t)  【JDK 9】<br>如果t为null，返回一个空流，否则返回包含t的流。</p>
+<hr>
+<p>包java.util.Arrays下：<br>static <T> Stream<T> stream(T[] array)<br>产生一个流，它的元素是由数组中指定范围内的元素构成的。</p>
+<hr>
+<p>包java.util.regex.Pattern下：<br>Stream<String> splitAsStream(final CharSequence input)<br>产生一个流，它的元素是输入中由该模式界定的部分。</p>
+<hr>
+<p>包java.util.stream.StreamSupport下：<br>static <T> Stream<T> stream(Spliterator<T> spliterator, boolean<br>parallel)<br>产生一个流，它包含了由给定的可分割迭代器产生的值。</p>
+<hr>
+<p>包java.lang.Iterable下：<br>default Spliterator<T> spliterator()<br>为这个Iterable产生一个可分割的迭代器。默认实现不分割也不报告尺寸。</p>
+<hr>
+<p>包java.util.function.Supplier<T>下：<br>T get()<br>提供一个值。</p>
+<hr>
+<p>包java.nio.file.Files下：<br>static Stream<String> lines(Path path)<br>static Stream<String> lines(Path path, Charset cs)<br>产生一个流，它的元素是指定文件中的行，该文件的字符集为UTF-8，或者为指定的字符集。</p>
+<hr>
+<p>包java.util.Collection<E>下：</p>
+<p>default Stream<E> stream()<br>产生当前集合中所有元素的顺序流。</p>
+<p>default Stream<E> parallelStream()<br>产生当前集合中所有元素的并行流。</p>
+<hr>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h6 id="parallelStream-和stream-的区别："><a href="#parallelStream-和stream-的区别：" class="headerlink" title="parallelStream()和stream()的区别："></a>parallelStream()和stream()的区别：</h6><p>一个是串行流，一个是并行流(底层涉及多线程)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a sequential &#123;<span class="doctag">@code</span> Stream&#125; with this collection as its source.</span></span><br><span class="line"><span class="comment"> * 返回以此集合为源的连续流。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;This method should be overridden when the &#123;<span class="doctag">@link</span> #spliterator()&#125;</span></span><br><span class="line"><span class="comment"> * method cannot return a spliterator that is &#123;<span class="doctag">@code</span> IMMUTABLE&#125;,</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> CONCURRENT&#125;, or &lt;em&gt;late-binding&lt;/em&gt;. (See &#123;<span class="doctag">@link</span> #spliterator()&#125;</span></span><br><span class="line"><span class="comment"> * for details.)</span></span><br><span class="line"><span class="comment"> * 当spliterator（）方法无法返回【不可变、并发或后期绑定的spliterator】时，应重写此方法。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@implSpec</span></span></span><br><span class="line"><span class="comment"> * The default implementation creates a sequential &#123;<span class="doctag">@code</span> Stream&#125; from the</span></span><br><span class="line"><span class="comment"> * collection&#x27;s &#123;<span class="doctag">@code</span> Spliterator&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> a sequential &#123;<span class="doctag">@code</span> Stream&#125; over the elements in this collection</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 1.8</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">default</span> Stream&lt;E&gt; <span class="title">stream</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> StreamSupport.stream(spliterator(), <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a possibly parallel &#123;<span class="doctag">@code</span> Stream&#125; with this collection as its</span></span><br><span class="line"><span class="comment"> * source.  It is allowable for this method to return a sequential stream.</span></span><br><span class="line"><span class="comment"> * 返回一个可能的并行流，并将此集合作为其源。允许此方法返回顺序流。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;This method should be overridden when the &#123;<span class="doctag">@link</span> #spliterator()&#125;</span></span><br><span class="line"><span class="comment"> * method cannot return a spliterator that is &#123;<span class="doctag">@code</span> IMMUTABLE&#125;,</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> CONCURRENT&#125;, or &lt;em&gt;late-binding&lt;/em&gt;. (See &#123;<span class="doctag">@link</span> #spliterator()&#125;</span></span><br><span class="line"><span class="comment"> * for details.)</span></span><br><span class="line"><span class="comment"> * 当spliterator（）方法无法返回【不可变、并发或后期绑定的spliterator】时，应重写此方法。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@implSpec</span></span></span><br><span class="line"><span class="comment"> * The default implementation creates a parallel &#123;<span class="doctag">@code</span> Stream&#125; from the</span></span><br><span class="line"><span class="comment"> * collection&#x27;s &#123;<span class="doctag">@code</span> Spliterator&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> a possibly parallel &#123;<span class="doctag">@code</span> Stream&#125; over the elements in this</span></span><br><span class="line"><span class="comment"> * collection</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 1.8</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">default</span> Stream&lt;E&gt; <span class="title">parallelStream</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> StreamSupport.stream(spliterator(), <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上述源码可以看出，这两个方法的默认实现，均采用了StreamSupport的stream方法。</p>
+<p>那这个StreamSupport中又是做了些啥呢？继续跟代码下去就会发现，它根据提供的元素分割器（Spliterator）和 是否并行 创建了一个Stream的实现类，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Creates a new sequential or parallel &#123;<span class="doctag">@code</span> Stream&#125; from a</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> Spliterator&#125;.</span></span><br><span class="line"><span class="comment"> * 根据&#123;<span class="doctag">@code</span> Spliterator&#125;元素分割器创建一个新的串行或并行的流&#123;<span class="doctag">@code</span> Stream&#125;</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The spliterator is only traversed, split, or queried for estimated</span></span><br><span class="line"><span class="comment"> * size after the terminal operation of the stream pipeline commences.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;It is strongly recommended the spliterator report a characteristic of</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> IMMUTABLE&#125; or &#123;<span class="doctag">@code</span> CONCURRENT&#125;, or be</span></span><br><span class="line"><span class="comment"> * &lt;a href=&quot;../Spliterator.html#binding&quot;&gt;late-binding&lt;/a&gt;.  Otherwise,</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> #stream(java.util.function.Supplier, int, boolean)&#125; should be used</span></span><br><span class="line"><span class="comment"> * to reduce the scope of potential interference with the source.  See</span></span><br><span class="line"><span class="comment"> * &lt;a href=&quot;package-summary.html#NonInterference&quot;&gt;Non-Interference&lt;/a&gt; for</span></span><br><span class="line"><span class="comment"> * more details.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt; the type of stream elements</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> spliterator a &#123;<span class="doctag">@code</span> Spliterator&#125; describing the stream elements</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> parallel if &#123;<span class="doctag">@code</span> true&#125; then the returned stream is a parallel</span></span><br><span class="line"><span class="comment"> *        stream; if &#123;<span class="doctag">@code</span> false&#125; the returned stream is a sequential</span></span><br><span class="line"><span class="comment"> *        stream.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> a new sequential or parallel &#123;<span class="doctag">@code</span> Stream&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">stream</span><span class="params">(Spliterator&lt;T&gt; spliterator, <span class="keyword">boolean</span> parallel)</span> </span>&#123;</span><br><span class="line">    Objects.requireNonNull(spliterator);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ReferencePipeline.Head&lt;&gt;(spliterator,</span><br><span class="line">                                        StreamOpFlag.fromCharacteristics(spliterator),</span><br><span class="line">                                        parallel);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ReferencePipeline的静态内部实现类Head类，这个类重写了ReferencePipeline类的几个方法，其中我们主要关注下图两个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">forEach</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> E_OUT&gt; action)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isParallel()) &#123;</span><br><span class="line">        sourceStageSpliterator().forEachRemaining(action);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.forEach(action);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">forEachOrdered</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> E_OUT&gt; action)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isParallel()) &#123;</span><br><span class="line">        sourceStageSpliterator().forEachRemaining(action);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.forEachOrdered(action);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>forEach和forEachOrderd方法，都是先判断了该Stream是否是并行流，不是的话直接执行原分割迭代器的forEachRemaining方法，对该流的元素进行一一消费处理，是的话则调用父类（ReferencePipeline）的对应处理方法。</p>
+<h6 id="常用方法：filter-、map-、flatMap"><a href="#常用方法：filter-、map-、flatMap" class="headerlink" title="常用方法：filter()、map()、flatMap()"></a>常用方法：filter()、map()、flatMap()</h6><p>1.流的转换会产生一个新的流，它的元素派生自另一个流中的元素。filter方法会产生一个新流，它的元素与某种条件相匹配。<br>如：将一个字符串流转换为只包含长度大于12的另一个流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = ..;</span><br><span class="line">Stream&lt;String&gt; stringStream = words.stream().filter(w -&gt; w.length() &gt; <span class="number">12</span>);</span><br></pre></td></tr></table></figure>
+
+<p>2.通常，我们想按照【某种方式】来【转换】流中的值，此时，我们可以用map方法并传递执行该转换的函数。<br>如：将单词列表中的所有单词都转换成小写。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; words = Arrays.asList(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;v&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>);</span><br><span class="line">Stream&lt;String&gt; stringStream = words.stream().map(String::toLowerCase);</span><br></pre></td></tr></table></figure>
+<p>在使用map时，会有一个函数应用到每个元素上，并且其结果是包含了应用该函数后锁产生的所有结果的流。</p>
+<h1 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="未完待续。。。"></a>未完待续。。。</h1></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">zredMonkey</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/04/15/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/">http://example.com/2021/04/15/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">猿始大猩猩</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">LeetCode---统计作战单位数(未完待续)</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/monkeyHand.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">zredMonkey</div><div class="author-info__description">及时清醒，及时止损</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zredMonkey"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">暂无</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E4%B8%8E%E9%9B%86%E5%90%88%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="toc-number">2.</span> <span class="toc-text">流与集合的差异</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E5%BA%93API"><span class="toc-number">3.</span> <span class="toc-text">流库API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">3.1.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#parallelStream-%E5%92%8Cstream-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">3.1.0.0.1.</span> <span class="toc-text">parallelStream()和stream()的区别：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9Afilter-%E3%80%81map-%E3%80%81flatMap"><span class="toc-number">3.1.0.0.2.</span> <span class="toc-text">常用方法：filter()、map()、flatMap()</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD%E3%80%82%E3%80%82%E3%80%82"><span class="toc-number"></span> <span class="toc-text">未完待续。。。</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/15/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/" title="Java8的流库（1）"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java8的流库（1）"/></a><div class="content"><a class="title" href="/2021/04/15/Java8%E7%9A%84%E6%B5%81%E5%BA%93%EF%BC%881%EF%BC%89/" title="Java8的流库（1）">Java8的流库（1）</a><time datetime="2021-04-15T12:25:12.032Z" title="发表于 2021-04-15 20:25:12">2021-04-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/" title="LeetCode---统计作战单位数(未完待续)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode---统计作战单位数(未完待续)"/></a><div class="content"><a class="title" href="/2021/04/11/LeetCode---%E7%BB%9F%E8%AE%A1%E4%BD%9C%E6%88%98%E5%8D%95%E4%BD%8D%E6%95%B0(%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD)/" title="LeetCode---统计作战单位数(未完待续)">LeetCode---统计作战单位数(未完待续)</a><time datetime="2021-04-11T14:38:20.733Z" title="发表于 2021-04-11 22:38:20">2021-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/16/Logback%20%E6%97%A5%E5%BF%97(%E5%BE%85%E5%AE%8C%E5%96%84)/" title="Logback 日志(待完善)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Logback 日志(待完善)"/></a><div class="content"><a class="title" href="/2021/03/16/Logback%20%E6%97%A5%E5%BF%97(%E5%BE%85%E5%AE%8C%E5%96%84)/" title="Logback 日志(待完善)">Logback 日志(待完善)</a><time datetime="2021-03-16T12:08:01.554Z" title="发表于 2021-03-16 20:08:01">2021-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%BA%8C%5D/" title="Spring Cloud GateWay [二]"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring Cloud GateWay [二]"/></a><div class="content"><a class="title" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%BA%8C%5D/" title="Spring Cloud GateWay [二]">Spring Cloud GateWay [二]</a><time datetime="2021-03-14T12:33:11.759Z" title="发表于 2021-03-14 20:33:11">2021-03-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%B8%80%5D/" title="Spring Cloud GateWay [一]"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring Cloud GateWay [一]"/></a><div class="content"><a class="title" href="/2021/03/14/Spring%20Cloud%20GateWay%20%5B%E4%B8%80%5D/" title="Spring Cloud GateWay [一]">Spring Cloud GateWay [一]</a><time datetime="2021-03-14T09:49:43.361Z" title="发表于 2021-03-14 17:49:43">2021-03-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By zredMonkey</div><div class="footer_custom_text">人生如果不学习，那还有什么意义，嗝...</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script></div></body></html>
