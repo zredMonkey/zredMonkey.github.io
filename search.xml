@@ -39,6 +39,35 @@
     
     
     <entry>
+      <title>OOM-内存溢出问题排查</title>
+      <link href="/OOM-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/"/>
+      <url>/OOM-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="OOM-内存溢出的问题-排查"><a href="#OOM-内存溢出的问题-排查" class="headerlink" title="OOM(内存溢出的问题)排查"></a><strong>OOM(内存溢出的问题)排查</strong></h1><ul><li><p><strong>内存泄漏(Memory Leak)</strong>:是指程序在申请内存后,无法释放已申请的内存空间,一次内存泄漏似乎不会有大的影响,但内存泄漏堆积后的后果就是内存溢出。</p></li><li><p>**内存溢出(Memory Overflow)**：指程序申请内存时，没有足够的内存供申请者使用，或者说，给了你一块存储int类型数据的存储空间，但是你却存储long类型的数据，那么结果就是内存不够用，此时就会报错OOM,即所谓的内存溢出。</p></li></ul><p><strong>OOM原因：</strong></p><p>1.一次性申请的数量太多<br>(更改申请对象数量)</p><p>2.内存资源耗尽未释放<br>(找到未释放的对象进行释放)</p><p>3.本身资源不够<br>jmap -heap 查看堆信息</p><p><strong>OOM如何定位和解决的方法</strong><br><strong>1.系统已经OOM挂了</strong></p><p>提前设置：-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath&#x3D;</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath= -jar xxxx.jar</span><br></pre></td></tr></table></figure><p><img src="/img/oom-1.png" alt="图片"><br>再利用Java VisualVM去分析这个文件。</p><p><strong>2.系统运行中还未OOM</strong></p><p>导出dump文件：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=./jvm_logs/xushu.hprof 24286</span><br></pre></td></tr></table></figure><p>注：<br>(1) file&#x3D;表示dump文件打印的位置。<br>(2)24286表示进程号。</p><p>或使用Arthas软件。</p><hr><p>线上系统OOM排查步骤：</p><ol><li>使用top命令看一下线上的CPU、内存使用情况。</li><li>定位异常进程，看日志。</li><li>如果是OOM，则用jstat -gc pid 1000 100(每秒)监控JVM内存运行情况和gc频率。</li><li>jmap -dump:live,format&#x3D;b,file&#x3D;dump3.hprof pid,<br>使用jmap dump内存快照。(导出dump文件命令)</li><li>使用MAT工具分析。<br>可以看下面的注。</li></ol><p>注：</p><ol><li><p>jps (查看进程号)</p></li><li><p>jmap -histo:live 进程号 &gt; 存放路径  (将进程打印到文本中)</p></li><li><p>start 路径名 (打开文本，查看实例个数)</p></li><li><p>ps -ef | grep 服务名 ps -aux | grep 服务名<br>查看服务的进程是否存在</p></li><li><p>查看服务的日志<br>cat -n xxx_log |grep “OutOfMemoryError”</p></li><li><p>查看堆内存占用概况<br>jmap -heap 进程号</p></li><li><p>查看堆中对象的统计信息<br>jmap -histo 进程号 | head -n 100</p></li><li><p>查看GC统计信息<br>jstat -gcutil 进程号</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S0 S1 E O M CCS YGC YGCT FGC FGCT GCT</span><br><span class="line">0.00 0.00 100.00 99.94 90.56 87.86 875 9.307 3223 5313.139 5322.446</span><br></pre></td></tr></table></figure><p> S0：幸存1区当前使用比例<br> S1：幸存2区当前使用比例<br> E：Eden Space（伊甸园）区使用比例<br> O：Old Gen（老年代）使用比例<br> M：元数据区使用比例<br> CCS：压缩使用比例<br> YGC：年轻代垃圾回收次数<br> FGC：老年代垃圾回收次数<br> FGCT：老年代垃圾回收消耗时间<br> GCT：垃圾回收消耗总时间</p></li><li><p><strong>生产对堆快照Heap dump</strong></p><p><strong>jmap -dump:format&#x3D;b,file&#x3D;&#x2F;tmp&#x2F;进程号_jmap_dump.hprof 进程号</strong></p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> OOM </category>
+          
+          <category> 内存溢出 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> OOM </tag>
+            
+            <tag> 内存溢出 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>JAVA之用Stream流将List转化为Map</title>
       <link href="/JAVA%E4%B9%8B%E7%94%A8Stream%E6%B5%81%E5%B0%86List%E8%BD%AC%E5%8C%96%E4%B8%BAMap/"/>
       <url>/JAVA%E4%B9%8B%E7%94%A8Stream%E6%B5%81%E5%B0%86List%E8%BD%AC%E5%8C%96%E4%B8%BAMap/</url>
